@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 class User(AbstractUser):
 
     """ User Model """
-    
+
     GENDER_CHOICE = {
         ('male','Male'),
         ('female', 'Female'),
@@ -20,6 +20,9 @@ class User(AbstractUser):
     bio = TextField(null=True)
     phone = CharField(max_length=140, null=True)
     gender = CharField(max_length=80, choices=GENDER_CHOICE, null=True)
+    followers = ManyToManyField("self")
+    following = ManyToManyField("self")
+
 
 
     def get_absolute_url(self):
