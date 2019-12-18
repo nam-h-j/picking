@@ -15,10 +15,14 @@ class Image(TimeStampedModel):
     file = models.ImageField()
     location = models.CharField(max_length=140)
     caption = models.TextField()
-    creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(
+        user_models.User, on_delete=models.CASCADE,related_name='images')
 
     def ___str___(self) :
-        return '{} - {}'.format(self.location, self.caption)
+        return self.caption
+
+    class Meta :
+        ordering = ['-created_at']
 
 class Comment(TimeStampedModel):
 
@@ -26,7 +30,8 @@ class Comment(TimeStampedModel):
 
     message = models.TextField()
     creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    image = models.ForeignKey(
+        Image, on_delete=models.CASCADE, related_name='comments')
 
     def ___str___(self) :
         return self.message
@@ -36,7 +41,8 @@ class Like(TimeStampedModel):
     """ Like Model """
 
     creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    image = models.ForeignKey(
+        Image, on_delete=models.CASCADE, related_name='likes')
 
     def ___str___(self) :
         return 'User : {} - Image Caption : {}'.format(self.creator.username, self.image.caption)
