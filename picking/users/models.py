@@ -15,6 +15,7 @@ class User(AbstractUser):
     }
     # First Name and Last Name do not cover name patterns
     # around the globe.
+    profile_image = ImageField(null = True)
     name = CharField(_("Name of User"), blank=True, max_length=255)
     website = URLField(null=True)
     bio = TextField(null=True)

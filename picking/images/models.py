@@ -8,6 +8,7 @@ class TimeStampedModel(models.Model):
     class Meta():
         abstract = True
 
+
 class Image(TimeStampedModel):
 
     """ Image Model """
@@ -18,11 +19,16 @@ class Image(TimeStampedModel):
     creator = models.ForeignKey(
         user_models.User, on_delete=models.CASCADE,related_name='images')
 
-    def ___str___(self) :
+    @property
+    def count_likes(self) :
+        return self.likes.all().count()
+
+    def __str__(self) :
         return self.caption
 
     class Meta :
         ordering = ['-created_at']
+
 
 class Comment(TimeStampedModel):
 
@@ -33,8 +39,9 @@ class Comment(TimeStampedModel):
     image = models.ForeignKey(
         Image, on_delete=models.CASCADE, related_name='comments')
 
-    def ___str___(self) :
+    def __str__(self) :
         return self.message
+
 
 class Like(TimeStampedModel):
 
@@ -44,5 +51,5 @@ class Like(TimeStampedModel):
     image = models.ForeignKey(
         Image, on_delete=models.CASCADE, related_name='likes')
 
-    def ___str___(self) :
+    def __str__(self) :
         return 'User : {} - Image Caption : {}'.format(self.creator.username, self.image.caption)
