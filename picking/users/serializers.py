@@ -2,7 +2,7 @@ from rest_framework import serializers
 from . import models
 from picking.images import serializers as image_seriallizers
 
-class ExploreUserSerializer(serializers.ModelSerializer) :
+class UserListSerializer(serializers.ModelSerializer) :
     class Meta :
         model = models.User
         fields = (
